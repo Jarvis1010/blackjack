@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Card from './Card';
 
 const Table = styled.div`
     background: linear-gradient(to bottom, #113d10 0%, #337630 100%);
@@ -10,8 +11,16 @@ const Table = styled.div`
 `;
 
 export class GameBoard extends Component {
+  state = {
+    playerTurn: true,
+  };
+
   render() {
-    return <Table />;
+    return (
+      <Table>
+        <Card suit="spades" value="K" />
+      </Table>
+    );
   }
 }
 

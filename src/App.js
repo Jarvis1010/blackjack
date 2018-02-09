@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import GameBoard from './components/GameBoard';
+
+const AppWrapper = styled.div`
+  display:flex;
+  justify-content:center;
+  background-image: url("http://atelier-theater.com/wp-content/uploads/2017/08/3d-wood-table-top-background-with-tabletop-backgroundwood-tops-for-sale-toronto--wooden-ideas.jpg");
+  background-color: #cccccc;
+  height:auto;
+  min-height:100vh;
+  padding-bottom:1em;
+`;
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <AppWrapper>
+        <GameBoard />
+      </AppWrapper>
     );
   }
 }

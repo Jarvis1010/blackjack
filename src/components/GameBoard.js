@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
+import { createDeck, shuffle } from '../cardUtils';
 
 const Table = styled.div`
     background: linear-gradient(to bottom, #113d10 0%, #337630 100%);
@@ -16,6 +17,7 @@ export class GameBoard extends Component {
   };
 
   render() {
+    console.log(shuffle(createDeck()));
     return (
       <Table>
         <Card suit="spades" value="K" />

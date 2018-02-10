@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Card from './Card';
 import ScoreBoard from './ScoreBoard';
+import PlayingArea from './PlayingArea';
 import { createDeck, shuffle } from '../cardUtils';
 
 const Table = styled.div`
@@ -40,8 +40,8 @@ export class GameBoard extends Component {
       dealer: 0,
     },
     cards: {
-      player: [],
       dealer: [],
+      player: [],
     },
   };
 
@@ -67,12 +67,19 @@ export class GameBoard extends Component {
   };
 
   render() {
-    const { scores, gameStarted } = this.state;
+    const {
+      scores,
+      gameStarted,
+      cards,
+      playerTurn,
+      deck: { masterDeck: deck },
+    } = this.state;
     return (
       <Table>
         <ScoreBoard scores={scores} />
         {!gameStarted &&
           <StartGame onClick={this.handleStartGame}>Press to Begin</StartGame>}
+        {gameStarted && <PlayingArea {...{ playerTurn, cards, deck }} />}
       </Table>
     );
   }

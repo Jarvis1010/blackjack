@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Card from './Card';
 
 const Area = styled.div`
-    margin-top:2em;
+    margin-top:1em;
 `;
 
 const Cards = styled.div`
@@ -26,7 +26,7 @@ const PlayingArea = ({ playerTurn, cards, user }) => (
           key={card.suit + card.face}
           suit={card.suit}
           value={card.face}
-          back={playerTurn && user == 'dealer' && index === 1}
+          back={playerTurn && user === 'dealer' && index === 1}
         />
       ))}
     </Cards>

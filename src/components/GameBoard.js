@@ -24,6 +24,13 @@ const StartGame = styled.button`
     background:transparent;
 `;
 
+const PlayerButton = StartGame.extend`
+    margin:1em;
+    ${props => props.disabled && `color:#eee;
+        border-color:#eee;
+        `}
+`;
+
 const player = 'player';
 const dealer = 'dealer';
 
@@ -43,6 +50,28 @@ export class GameBoard extends Component {
       dealer: [],
       player: [],
     },
+  };
+
+  componentDidUpdate(lastProps, lastState) {
+    if (
+      lastState.cards !== this.state.cards ||
+      lastState.playerTurn !== this.state.playerTurn
+    ) {
+      this.calculateScore();
+    }
+  }
+
+  calculateScore = () => {
+    const { playerTurn, cards, deck: { masterDeck } } = this.state;
+    const dealer = playerTurn
+      ? masterDeck[cards.dealer[0]].value
+      : cards.dealer.reduce((acc, index) => acc + masterDeck[index].value, 0);
+    const player = cards.player.reduce(
+      (acc, index) => acc + masterDeck[index].value,
+      0
+    );
+
+    this.setState({ scores: { dealer, player } });
   };
 
   handleStartGame = () => {
@@ -66,6 +95,14 @@ export class GameBoard extends Component {
     });
   };
 
+  handleHit = () => {
+    this.deal(player);
+  };
+
+  handleHold = () => {
+    this.setState({ playerTurn: false });
+  };
+
   render() {
     const {
       scores,
@@ -79,7 +116,18 @@ export class GameBoard extends Component {
         <ScoreBoard scores={scores} />
         {!gameStarted &&
           <StartGame onClick={this.handleStartGame}>Press to Begin</StartGame>}
-        {gameStarted && <PlayingArea {...{ playerTurn, cards, deck }} />}
+        {gameStarted && [
+          <PlayingArea {...{ playerTurn, cards, deck }} />,
+          <div>
+            <PlayerButton disabled={!playerTurn} onClick={this.handleHit}>
+              Hit?
+            </PlayerButton>
+            <PlayerButton disabled={!playerTurn} onClick={this.handleHold}>
+              Hold?
+            </PlayerButton>
+          </div>,
+        ]}
+
       </Table>
     );
   }

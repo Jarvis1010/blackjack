@@ -31,6 +31,15 @@ const PlayerButton = StartGame.extend`
         `}
 `;
 
+const EndGame = styled.span`
+    margin-top:1em;
+    transform: rotate(-30deg);
+    color:white;
+    font-size:100px;
+    font-weight:bold;
+    font-family:"Comic Sans MS", "Comic Sans", cursive;
+`;
+
 const player = 'player';
 const dealer = 'dealer';
 
@@ -42,6 +51,7 @@ export class GameBoard extends Component {
     },
     gameStarted: false,
     playerTurn: true,
+    playerLose: false,
     scores: {
       player: 0,
       dealer: 0,
@@ -71,7 +81,14 @@ export class GameBoard extends Component {
       0
     );
 
-    this.setState({ scores: { dealer, player } });
+    this.setState({ scores: { dealer, player } }, () => this.checkScores());
+  };
+
+  checkScores = () => {
+    const { scores } = this.state;
+    if (scores.player > 21) {
+      this.setState({ playerLose: true });
+    }
   };
 
   handleStartGame = () => {
@@ -109,6 +126,7 @@ export class GameBoard extends Component {
       gameStarted,
       cards,
       playerTurn,
+      playerLose,
       deck: { masterDeck: deck },
     } = this.state;
     return (
@@ -116,7 +134,8 @@ export class GameBoard extends Component {
         <ScoreBoard scores={scores} />
         {!gameStarted &&
           <StartGame onClick={this.handleStartGame}>Press to Begin</StartGame>}
-        {gameStarted && [
+        {!playerLose &&
+        gameStarted && [
           <PlayingArea {...{ playerTurn, cards, deck }} />,
           <div>
             <PlayerButton disabled={!playerTurn} onClick={this.handleHit}>
@@ -127,7 +146,7 @@ export class GameBoard extends Component {
             </PlayerButton>
           </div>,
         ]}
-
+        {playerLose && <EndGame>You Lose!!!</EndGame>}
       </Table>
     );
   }

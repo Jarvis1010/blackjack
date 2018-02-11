@@ -28,6 +28,7 @@ const PlayerButton = StartGame.extend`
     margin:1em;
     ${props => props.disabled && `color:#eee;
         border-color:#eee;
+        background:rgba(255,255,255,0.05);
         `}
 `;
 
